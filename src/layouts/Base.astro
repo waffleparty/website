@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import FlatMark from '../components/FlatMark.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { url, REPO } from '../lib/url';
+
+interface Props { title?: string; description?: string }
+const {
+  title,
+  description = 'Skills, agents, and hooks for coding agents: a backlog and a loop that builds it, a plan outline that survives /clear, and unattended runs that finish through pull requests.',
+} = Astro.props;
+const fullTitle = title ? `${title} · waffles` : 'waffles: skills, agents, and hooks for coding agents';
+const ogImage = new URL(url('/waffles-1024.png'), Astro.site).href;
+const path = Astro.url.pathname.replace(/\/$/, '');
+const nav = [
+  { href: url('/features'), label: 'Features' },
+  { href: url('/skills'), label: 'Skills & Agents' },
+  { href: `${REPO}/tree/main/docs`, label: 'Docs' },
+  { href: REPO, label: 'GitHub' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <link rel="sitemap" href={url('/sitemap-index.xml')} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#bada55" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c2c3c" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container bar">
+        <a class="brand" href={url('/')}><FlatMark size={28} /><span>waffles</span></a>
+        <nav aria-label="Main">
+          {nav.map((n) => <a href={n.href} aria-current={n.href.replace(/\/$/, '') === path ? 'page' : undefined}>{n.label}</a>)}
+        </nav>
+        <ThemeToggle />
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <div class="container foot">
+        <span>waffles is MIT licensed.</span>
+        <a href={REPO}>Source on GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>
+<style>
+  .site-header { border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; gap: 1.25rem; min-height: 4rem; flex-wrap: wrap; padding-block: 0.6rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--ink); text-decoration: none; font: 700 1.15rem/1 var(--font-display); letter-spacing: -0.02em; }
+  nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; font-size: 0.95rem; }
+  nav a { color: var(--ink); text-decoration: none; }
+  nav a:hover, nav a[aria-current='page'] { color: var(--link); text-decoration: underline; }
+  .site-footer { border-top: 1px solid var(--line); margin-top: 5rem; font-size: 0.9rem; color: var(--ink-muted); }
+  .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.5rem; }
+</style>

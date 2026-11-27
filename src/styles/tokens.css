@@ -1,0 +1,72 @@
+/* Brand: "Teal ink" — Blue plate's type and structure on #bada55.
+   Gold (#F2B544) has 1.2:1 contrast on #bada55: use it only on dark surfaces. */
+:root {
+  --green: #bada55;
+  --green-tile: #cde67f;
+  --green-line: #a5c845;
+  --green-deep: #2f3b0e; /* terminal background: a dark #bada55 */
+  --teal: #133f55;
+  --teal-deep: #0c2c3c;
+  --teal-mid: #1f5a78;
+  --gold: #f2b544;
+  --plate: #eef3f2;
+
+  /* roles, light theme */
+  --bg: var(--green);
+  --surface: var(--green-tile);
+  --line: var(--green-line);
+  --ink: var(--teal-deep);
+  --ink-muted: #2c4f3a;
+  --link: var(--teal);
+  --eyebrow: var(--teal-mid);
+  --button-bg: var(--teal);
+  --button-ink: var(--plate);
+  --disc: var(--teal);
+  --code-bg: var(--green-deep);
+  --code-ink: #eef5d6;
+  --code-accent: var(--gold);
+
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-body: 'Instrument Sans Variable', 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --radius: 8px;
+  --max: 1120px;
+  color-scheme: light;
+}
+
+/* Dark theme: deep teal ground, #bada55 takes gold's place as the accent. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: var(--teal-deep);
+    --surface: var(--teal);
+    --line: #1f4a5e;
+    --ink: var(--plate);
+    --ink-muted: #a9c3cc;
+    --link: var(--green);
+    --eyebrow: var(--green);
+    --button-bg: var(--green);
+    --button-ink: var(--teal-deep);
+    --disc: #0a2430;
+    --code-bg: #072029;
+    --code-ink: #cfe6ee;
+    --code-accent: var(--green);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: var(--teal-deep);
+  --surface: var(--teal);
+  --line: #1f4a5e;
+  --ink: var(--plate);
+  --ink-muted: #a9c3cc;
+  --link: var(--green);
+  --eyebrow: var(--green);
+  --button-bg: var(--green);
+  --button-ink: var(--teal-deep);
+  --disc: #0a2430;
+  --code-bg: #072029;
+  --code-ink: #cfe6ee;
+  --code-accent: var(--green);
+  color-scheme: dark;
+}

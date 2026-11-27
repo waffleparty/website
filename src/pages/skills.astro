@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import { docs, REPO } from '../lib/url';
+
+const skills = [
+  ['/waffles:backlog <text>', 'Split text into backlog items, or adopt a tracker item by ID.', false],
+  ['/waffles:backlog-review', 'Groom items that are not ready by asking you questions one at a time.', true],
+  ['/waffles:work-loop', 'Build the backlog: background items to builders, the rest with you.', true],
+  ['/waffles:non-interactive [task]', 'Finish a task while you are away, through pull requests.', true],
+  ['/waffles:commit-prep', 'Get pending changes ready to commit and hand you a paste-ready commit command.', true],
+  ['/waffles:dev-server [app]', 'Start the project’s dev server as a background task.', false],
+  ['/waffles:watch-ci [target]', 'Watch the CI/CD runs for the work just pushed, and fix failures.', false],
+  ['/waffles:debate [question]', 'Argue a decision from several viewpoints and give a verdict.', false],
+  ['/waffles:ask [topic or file]', 'Put the open items of the conversation to you as multiple-choice questions.', false],
+  ['/waffles:ux-review [pages or link]', 'Review a web app’s UI with before and after mockups you pick from.', false],
+  ['/waffles:init-check', 'Check that the session has what waffles needs.', false],
+  ['/waffles:plan', 'Open or close the plan outline pane.', true],
+] as const;
+
+const agents = [
+  ['waffles:test-runner', 'Haiku, low', 'Run tests, linters, and type checks; report failures. Read-only.'],
+  ['waffles:ci-watcher', 'Haiku, low', 'Wait on CI/CD runs for watch-ci; never fixes or approves.'],
+  ['waffles:implementer', 'Sonnet, medium', 'Build a fully specified piece of work.'],
+  ['waffles:implementer-hard', 'Opus, high', 'Build a piece that needs judgment: unknown bugs, multi-file refactors, risky areas.'],
+  ['waffles:reviewer', 'Opus, high', 'Review finished work with fresh eyes. Read-only.'],
+  ['waffles:decider', 'Most capable, high', 'Make one hard decision on someone’s behalf. Read-only.'],
+] as const;
+---
+<Base title="Skills & Agents" description="Every waffles skill and subagent, and what each one does.">
+  <section class="container stack head">
+    <span class="eyebrow">Skills & Agents</span>
+    <h1>Skills you run, agents that do the work.</h1>
+    <p class="lede">Run a skill as <code>/waffles:&lt;name&gt;</code>. The agent also runs some skills on its own when your request matches; the ones marked explicit run only when you type them.</p>
+  </section>
+
+  <section class="container stack">
+    <h2>Skills</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Command</th><th scope="col">Purpose</th></tr></thead>
+        <tbody>
+          {skills.map(([cmd, purpose, explicit]) => (
+            <tr><td><code>{cmd}</code></td><td>{purpose}{explicit && <span class="tag">Explicit</span>}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Three commands come from hooks and have no prefix: <code>/prod</code>, <code>/rapid</code>, and <code>/backlog-entry</code> switch modes, and <code>/auto-effort</code> turns auto effort on or off. <a href={docs('skills.md')}>Skills docs →</a></p>
+  </section>
+
+  <section class="container stack agents">
+    <h2>Agents</h2>
+    <p>Subagents for Claude Code. A subagent follows the brief of the agent that started it; the modes and the plan outline do not apply to it.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Agent</th><th scope="col">Model, effort</th><th scope="col">Purpose</th></tr></thead>
+        <tbody>
+          {agents.map(([name, model, purpose]) => <tr><td><code>{name}</code></td><td>{model}</td><td>{purpose}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><a href={`${REPO}/tree/main/agents`}>Agent definitions on GitHub →</a></p>
+  </section>
+</Base>
+<style>
+  .head { padding-block: 4rem 2rem; }
+  .agents { margin-top: 4rem; }
+  td code { white-space: nowrap; }
+  .tag { margin-left: 0.5rem; font: 500 0.7rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.4rem; border-radius: 4px; border: 1px solid var(--line); color: var(--ink-muted); white-space: nowrap; }
+  .note { font-size: 0.92rem; color: var(--ink-muted); }
+</style>

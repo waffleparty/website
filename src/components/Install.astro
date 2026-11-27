@@ -1,0 +1,26 @@
+---
+/** Claude Code install commands, with a copy button. */
+const lines = ['/plugin marketplace add waffleparty/marketplace', '/plugin install waffles@waffleparty'];
+---
+<div class="install">
+  <pre class="terminal"><code>{lines.map((l) => <span class="line"><span class="prompt">&gt;</span>{l}{'\n'}</span>)}</code></pre>
+  <button type="button" class="copy" data-copy={lines.join('\n')}>Copy</button>
+</div>
+<style>
+  .install { position: relative; max-width: 34rem; }
+  .copy {
+    position: absolute; top: 0.6rem; right: 0.6rem;
+    font: 500 0.75rem/1 var(--font-mono); padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--code-ink) 30%, transparent); background: transparent; color: var(--code-ink);
+  }
+  pre { padding-right: 4.5rem; }
+</style>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.copy ?? ''); b.textContent = 'Copied'; }
+      catch { b.textContent = 'Select and copy'; }
+      setTimeout(() => (b.textContent = 'Copy'), 2000);
+    });
+  });
+</script>
