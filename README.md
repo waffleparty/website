@@ -25,7 +25,7 @@ npm run preview   # serve dist/
 
 ## Brand
 
-Colors, type, and the light and dark themes are tokens in `src/styles/tokens.css`. The text color on the `#bada55` background is deep teal; gold has too little contrast on it and is used only on dark surfaces. The 3D logo is used at large sizes (`public/waffles-*.png`); the flat mark (`src/components/FlatMark.astro`, `public/favicon.svg`) is used at small sizes.
+Colors and type are tokens in `src/styles/tokens.css`. The site has one theme: a deep teal (`#0c2c3c`) background with `#bada55` as the accent. The 3D logo is used at large sizes (`public/waffles-*.png`); the flat mark (`src/components/FlatMark.astro`, `public/favicon.svg`) is used at small sizes.
 
 ## Deploy
 
