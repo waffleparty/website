@@ -1,4 +1,4 @@
-/** Prefix a site path with the configured base (`/website` on GitHub Pages). */
+/** Prefix a site path with the configured base (empty at the custom domain's root). */
 export function url(path = '/'): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   const clean = path.startsWith('/') ? path : `/${path}`;

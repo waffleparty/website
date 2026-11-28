@@ -1,11 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Served by GitHub Pages at https://waffleparty.github.io/website/.
-// With a custom domain later, set `site` to it and remove `base`.
+// Served by GitHub Pages at the custom domain https://waffleparty.ai/ (set in the repo's Pages settings).
 export default defineConfig({
-  site: 'https://waffleparty.github.io',
-  base: '/website',
+  site: 'https://waffleparty.ai',
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [sitemap()],

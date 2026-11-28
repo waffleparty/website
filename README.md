@@ -1,6 +1,6 @@
 # waffles website
 
-The product site for [waffles](https://github.com/waffleparty/waffles), built with [Astro](https://astro.build) and served by GitHub Pages at https://waffleparty.github.io/website/.
+The product site for [waffles](https://github.com/waffleparty/waffles), built with [Astro](https://astro.build) and served by GitHub Pages at https://waffleparty.ai/.
 
 ## Pages
 
@@ -18,7 +18,7 @@ Requirements: Node.js 22.23.4 or later (24 is used in CI).
 
 ```sh
 npm ci
-npm run dev       # http://localhost:4321/website/
+npm run dev       # http://localhost:4321/
 npm run build     # type check, then build into dist/
 npm run preview   # serve dist/
 ```
@@ -30,3 +30,5 @@ Colors, type, and the light and dark themes are tokens in `src/styles/tokens.css
 ## Deploy
 
 Each push to `main` runs `.github/workflows/deploy.yml`, which builds with `withastro/action` and publishes with `actions/deploy-pages`. The repo's Pages source must be set to GitHub Actions.
+
+The custom domain `waffleparty.ai` is set in the repo's Pages settings, not in a `CNAME` file: Actions deploys ignore that file. DNS for it is on Cloudflare, DNS only (not proxied): 4 `A` and 4 `AAAA` records at the apex for the GitHub Pages addresses, and `www` as a `CNAME` to `waffleparty.github.io`.
