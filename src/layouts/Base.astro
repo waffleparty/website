@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import FlatMark from '../components/FlatMark.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import { url, REPO } from '../lib/url';
 
 interface Props { title?: string; description?: string }
@@ -34,11 +33,7 @@ const nav = [
     <meta property="og:image" content={ogImage} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#bada55" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0c2c3c" media="(prefers-color-scheme: dark)" />
-    <script is:inline>
-      try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch {}
-    </script>
+    <meta name="theme-color" content="#0c2c3c" />
   </head>
   <body>
     <header class="site-header">
@@ -47,7 +42,6 @@ const nav = [
         <nav aria-label="Main">
           {nav.map((n) => <a href={n.href} aria-current={n.href.replace(/\/$/, '') === path ? 'page' : undefined}>{n.label}</a>)}
         </nav>
-        <ThemeToggle />
       </div>
     </header>
     <main><slot /></main>
