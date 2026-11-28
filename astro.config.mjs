@@ -7,5 +7,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
-  build: { format: 'directory' },
+  // Inline the CSS in each page. GitHub Pages lets browsers cache HTML for 10 minutes, and each
+  // deploy removes the previous build's hashed CSS file, so a cached page would load unstyled.
+  build: { format: 'directory', inlineStylesheets: 'always' },
 });
