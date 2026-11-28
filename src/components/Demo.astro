@@ -1,0 +1,107 @@
+---
+/** Animated mock session for one feature. Lines appear in order; the demo replays each time it scrolls into view. */
+interface Props { id: string; name: string }
+const { id, name } = Astro.props;
+
+type Line = { t: string; k?: 'in' | 'out' | 'ok' | 'wait' | 'dim' | 'head' };
+const scripts: Record<string, { title: string; lines: Line[] }> = {
+  'plan-outline': {
+    title: 'plan outline',
+    lines: [
+      { t: 'Add dark mode to the settings page', k: 'head' },
+      { t: '✔ 1 Agree on the color tokens', k: 'ok' },
+      { t: '▶ 2 Build the theme toggle' },
+      { t: '  ✔ 2.1 Store the choice per user', k: 'ok' },
+      { t: '  ▶ 2.2 ? Why does the snapshot test flake', k: 'wait' },
+      { t: '◦ 3 Ship', k: 'dim' },
+      { t: '/clear', k: 'in' },
+      { t: 'The outline is still here: focus is on 2.2.', k: 'out' },
+    ],
+  },
+  modes: {
+    title: 'session',
+    lines: [
+      { t: '/rapid', k: 'in' },
+      { t: 'waffles mode: rapid', k: 'dim' },
+      { t: 'Make the header sticky', k: 'in' },
+      { t: 'Changed header.css. Nothing committed.', k: 'out' },
+      { t: '/prod', k: 'in' },
+      { t: 'waffles mode: production', k: 'dim' },
+      { t: 'Tests, type check, and review: pass', k: 'ok' },
+      { t: 'Committed "feat: sticky header" and pushed', k: 'ok' },
+    ],
+  },
+  backlog: {
+    title: 'session',
+    lines: [
+      { t: '/waffles:backlog dark mode; fix CORS on /api', k: 'in' },
+      { t: 'Added .backlog/dark-mode.md', k: 'out' },
+      { t: 'Added .backlog/fix-cors.md', k: 'out' },
+      { t: '/waffles:work-loop', k: 'in' },
+      { t: 'builder 1 · fix-cors · own clone', k: 'dim' },
+      { t: 'builder 1 opened draft PR #12', k: 'ok' },
+      { t: 'dark-mode needs a decision: it stays with you', k: 'wait' },
+    ],
+  },
+  'unattended-runs': {
+    title: 'session',
+    lines: [
+      { t: '/waffles:non-interactive ship the export feature', k: 'in' },
+      { t: 'Decided: CSV first, JSON later (noted in the outline)', k: 'dim' },
+      { t: 'builder 1 · API endpoint → draft PR #21', k: 'out' },
+      { t: 'builder 2 · download button → draft PR #22', k: 'out' },
+      { t: 'Merged PR #21 and PR #22 through the merge queue', k: 'ok' },
+      { t: 'Step 4 needs your approval: left for you in the outline', k: 'wait' },
+      { t: 'Run finished. 1 step waits for you.', k: 'out' },
+    ],
+  },
+  'pull-requests': {
+    title: 'pull request #21',
+    lines: [
+      { t: 'Plan', k: 'head' },
+      { t: '☑ 1 Add the export endpoint', k: 'ok' },
+      { t: '☑ 2 Add the download button', k: 'ok' },
+      { t: '☐ 3 Document the CSV format', k: 'dim' },
+      { t: '/waffles:watch-ci', k: 'in' },
+      { t: 'CI · build … test …', k: 'dim' },
+      { t: 'CI passed. Deploy passed.', k: 'ok' },
+    ],
+  },
+};
+const s = scripts[id];
+---
+{s && (
+  <figure class="demo" data-demo aria-label={`${name} demo`}>
+    <div class="bar"><span></span><span></span><span></span><b>{s.title}</b></div>
+    <ol>
+      {s.lines.map((l, i) => (
+        <li class={l.k ?? 'out'} style={`--i:${i}`}>
+          {l.k === 'in' && <span class="prompt" aria-hidden="true">›</span>}{l.t}
+        </li>
+      ))}
+    </ol>
+  </figure>
+)}
+<script>
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) e.target.classList.toggle('play', e.isIntersecting);
+  }, { threshold: 0.4 });
+  document.querySelectorAll('[data-demo]').forEach((el) => io.observe(el));
+</script>
+<style>
+  .demo { margin: 0; border-radius: var(--radius); background: var(--code-bg); color: var(--code-ink); font: 0.84rem/1.6 var(--font-mono); overflow: hidden; min-height: 18rem; box-shadow: 0 10px 30px -18px rgba(0,0,0,.5); }
+  .bar { display: flex; gap: 6px; align-items: center; padding: 0.6rem 0.9rem; border-bottom: 1px solid color-mix(in srgb, var(--code-ink) 15%, transparent); }
+  .bar span { width: 9px; height: 9px; border-radius: 50%; background: color-mix(in srgb, var(--code-ink) 30%, transparent); }
+  .bar b { margin-left: 0.5rem; font-weight: 500; opacity: 0.7; }
+  ol { list-style: none; margin: 0; padding: 1rem 1.1rem; display: grid; gap: 0.2rem; }
+  li { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .play li { animation: in 0.35s ease-out both; animation-delay: calc(var(--i) * 0.7s); }
+  @keyframes in { from { opacity: 0; transform: translateY(4px); } }
+  .in { color: var(--code-ink); font-weight: 500; }
+  .prompt { color: var(--code-accent); margin-right: 0.6em; }
+  .ok { color: var(--code-accent); }
+  .wait { color: #f6a07a; } /* differs from .ok, which is gold in light mode */
+  .dim { opacity: 0.6; }
+  .head { font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+  .out { opacity: 0.9; }
+</style>

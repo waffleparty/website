@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { features } from '../data/features';
+import Demo from '../components/Demo.astro';
 ---
 <Base title="Features" description="The plan outline, modes, the backlog and work loop, unattended runs, and the pull request tools in waffles.">
   <section class="container intro stack">
@@ -18,9 +19,7 @@ import { features } from '../data/features';
         {f.body.map((p) => <p>{p}</p>)}
         <a href={f.docs.href}>{f.docs.label} →</a>
       </div>
-      <div class="demo" role="img" aria-label={`${f.name} demo: not built yet`}>
-        <span>Demo: {f.name}</span>
-      </div>
+      <Demo id={f.id} name={f.name} />
     </section>
   ))}
 </Base>
@@ -29,6 +28,5 @@ import { features } from '../data/features';
   .toc { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .toc a { padding: 0.4rem 0.8rem; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; font-size: 0.9rem; }
   .feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem; align-items: center; padding-block: 4rem; border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
-  .demo { aspect-ratio: 4 / 3; border-radius: var(--radius); background: var(--code-bg); color: var(--code-ink); display: grid; place-items: center; font: 0.85rem var(--font-mono); opacity: 0.85; }
   @media (max-width: 820px) { .feature { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-block: 3rem; } }
 </style>
